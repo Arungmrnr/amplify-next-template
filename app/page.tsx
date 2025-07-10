@@ -12,20 +12,27 @@ Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 
+interface ListTodosData {
+    items: Array<Schema["Todo"]["type"]>;
+  }
+
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  function deleteTodo(id: string): void {
+    client.models.Todo.delete(id);
+  }
 
-  function listTodos() {
+  function listTodos(): void {
     client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+      next: (data: ListTodosData) => setTodos([...data.items]),
     });
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     listTodos();
   }, []);
 
-  function createTodo() {
+  function createTodo(): void {
     client.models.Todo.create({
       content: window.prompt("Todo content"),
     });
@@ -37,7 +44,7 @@ export default function App() {
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+          <li key={todo.id}>{todo.content}<button onClick={()=>{deleteTodo(todo.id)}}>X</button></li>
         ))}
       </ul>
       <div>
