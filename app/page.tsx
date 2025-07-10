@@ -19,7 +19,7 @@ interface ListTodosData {
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   function deleteTodo(id: string): void {
-    client.models.Todo.delete(id);
+    client.models.Todo.delete({ id });
   }
 
   function listTodos(): void {
