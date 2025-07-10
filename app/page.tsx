@@ -7,6 +7,7 @@ import "./../app/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure(outputs);
 
@@ -17,6 +18,8 @@ interface ListTodosData {
   }
 
 export default function App() {
+    
+  const { signOut } = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   function deleteTodo(id: string): void {
     client.models.Todo.delete({ id });
@@ -54,6 +57,7 @@ export default function App() {
           Review next steps of this tutorial.
         </a>
       </div>
+      <button onClick={signOut}>Sign out</button>
     </main>
   );
 }
