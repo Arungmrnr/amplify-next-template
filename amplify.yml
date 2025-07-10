@@ -10,6 +10,7 @@ backend:
   runtime:
     name: nodejs
     version: 22
+
 frontend:
   phases:
     build:
@@ -27,3 +28,4 @@ frontend:
   runtime:
     name: nodejs
     version: 22
+
